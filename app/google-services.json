@@ -1,0 +1,207 @@
+{
+  "project_info": {
+    "project_number": "425384364334",
+    "firebase_url": "https://testapp-61a0d.firebaseio.com",
+    "project_id": "testapp-61a0d",
+    "storage_bucket": "testapp-61a0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425384364334:android:d0bbaa41860d9f2d4612bf",
+        "android_client_info": {
+          "package_name": "com.dishserve.customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425384364334-d2vlsths94ehg4gbi4higea27k81r7j9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7jxXX4jS13jtxZALl9QZEaD5twWqFb2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425384364334-d2vlsths94ehg4gbi4higea27k81r7j9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "425384364334-2ocb77o4n2u3i02hmgp0sr4vkboh9o07.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mujee.FireLoginTest"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425384364334:android:d011a1286fa6119f",
+        "android_client_info": {
+          "package_name": "com.entrust.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425384364334-qtn97acqq5g3a0m4f7fi5k5krccptru1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.entrust.test",
+            "certificate_hash": "8ff6df123e55df9c3f14166f023c3594e453f037"
+          }
+        },
+        {
+          "client_id": "425384364334-d2vlsths94ehg4gbi4higea27k81r7j9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7jxXX4jS13jtxZALl9QZEaD5twWqFb2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425384364334-d2vlsths94ehg4gbi4higea27k81r7j9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "425384364334-2ocb77o4n2u3i02hmgp0sr4vkboh9o07.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mujee.FireLoginTest"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425384364334:android:4a5c9ce38fc46cce4612bf",
+        "android_client_info": {
+          "package_name": "com.mujapps.jetpackcapstone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425384364334-d2vlsths94ehg4gbi4higea27k81r7j9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7jxXX4jS13jtxZALl9QZEaD5twWqFb2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425384364334-d2vlsths94ehg4gbi4higea27k81r7j9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "425384364334-2ocb77o4n2u3i02hmgp0sr4vkboh9o07.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mujee.FireLoginTest"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425384364334:android:7b24826080472bcf",
+        "android_client_info": {
+          "package_name": "com.myapps.mymvvmtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425384364334-ithn60tfmtbv5jdn7m9k534t40g3pqk0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myapps.mymvvmtest",
+            "certificate_hash": "cec050d94dccc4e85833937537e9de5ea224b965"
+          }
+        },
+        {
+          "client_id": "425384364334-d2vlsths94ehg4gbi4higea27k81r7j9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7jxXX4jS13jtxZALl9QZEaD5twWqFb2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425384364334-d2vlsths94ehg4gbi4higea27k81r7j9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "425384364334-2ocb77o4n2u3i02hmgp0sr4vkboh9o07.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mujee.FireLoginTest"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425384364334:android:c8e341a1a2388a044612bf",
+        "android_client_info": {
+          "package_name": "com.test.flutter_app_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425384364334-d2vlsths94ehg4gbi4higea27k81r7j9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7jxXX4jS13jtxZALl9QZEaD5twWqFb2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425384364334-d2vlsths94ehg4gbi4higea27k81r7j9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "425384364334-2ocb77o4n2u3i02hmgp0sr4vkboh9o07.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mujee.FireLoginTest"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
