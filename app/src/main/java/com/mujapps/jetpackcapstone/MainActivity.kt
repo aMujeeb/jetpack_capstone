@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.mujapps.jetpackcapstone.navigation.ReaderNavigation
 import com.mujapps.jetpackcapstone.ui.theme.JetPackCapstoneTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,25 +24,25 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             JetPackCapstoneTheme {
-
-                val db = FirebaseFirestore.getInstance()
-                val user: MutableMap<String, Any> = HashMap()
-                user["firstName"] = "John"
-                user["lastName"] = "Newman"
-
-                db.collection("users").add(user).addOnSuccessListener {
-                    Log.d("CAPSTONE", "OnCreateSuccess :" + it.id)
-                }.addOnFailureListener {
-                    Log.d("CAPSTONE", "OnCreateFailure :  $it")
-                }
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
+                ReaderApp()
             }
+        }
+    }
+}
+
+@Composable
+fun ReaderApp() {
+    Surface(
+        color = MaterialTheme.colors.background,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 44.dp)
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            ReaderNavigation()
         }
     }
 }
