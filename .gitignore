@@ -83,3 +83,11 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+.idea/inspectionProfiles/Project_Default.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/.name
+.idea/compiler.xml
+.idea/.name
+.idea/compiler.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/misc.xml

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">JetPackCapstone</string>
+    <string name="create_account_sub_header">Please enter a valid email and password that is at least 6 characters.</string>
 </resources>
