@@ -2,26 +2,32 @@ package com.mujapps.jetpackcapstone.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.rounded.FavoriteBorder
+import androidx.compose.material.icons.rounded.StarBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.google.firebase.auth.FirebaseAuth
-import com.mujapps.jetpackcapstone.components.FabContent
-import com.mujapps.jetpackcapstone.components.ReaderAppBar
-import com.mujapps.jetpackcapstone.components.TitleSection
+import com.mujapps.jetpackcapstone.components.*
 import com.mujapps.jetpackcapstone.model.MBook
 import com.mujapps.jetpackcapstone.navigation.ReaderScreens
 
@@ -46,6 +52,15 @@ fun HomeScreen(navController: NavHostController) {
 
 @Composable
 fun HomeContent(navController: NavHostController) {
+    val mBooks = listOf(
+        MBook(id = "b1", title = "Hello Again 1", authors = "All of Us 1", notes = null),
+        MBook(id = "b2", title = "Hello Again 2", authors = "All of Us 2", notes = null),
+        MBook(id = "b3", title = "Hello Again 3", authors = "All of Us 3", notes = null),
+        MBook(id = "b4", title = "Hello Again 4", authors = "All of Us 4", notes = null),
+        MBook(id = "b5", title = "Hello Again 5", authors = "All of Us 5", notes = null),
+        MBook(id = "b6", title = "Hello Again 6", authors = "All of Us 6", notes = null)
+    )
+
     val currentUserEmail = FirebaseAuth.getInstance().currentUser?.email
     val currentUserName =
         if (!FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty()) FirebaseAuth.getInstance().currentUser?.email?.split(
@@ -79,50 +94,39 @@ fun HomeContent(navController: NavHostController) {
                 Divider()
             }
         }
-    }
-}
+        ReadingRightNowArea(books = listOf(), navController = navController)
 
-@Composable
-fun ListCard(
-    book: MBook = MBook("asdf", "Runn Me", "Me And You", "Hello World"),
-    onPressBook: (String) -> Unit = {}
-) {
-    val context = LocalContext.current
-    val resources = context.resources
-    val displayMetrics = resources.displayMetrics
-    val screenWidth = displayMetrics.widthPixels / displayMetrics.density
-    val spacing = 8.dp
-    Card(
-        shape = RoundedCornerShape(24.dp),
-        backgroundColor = Color.White,
-        elevation = 8.dp,
-        modifier = Modifier
-            .padding(16.dp)
-            .height(220.dp)
-            .clickable { onPressBook.invoke(book.title.toString()) }
-    ) {
-        Column(
-            modifier = Modifier.width(width = screenWidth.dp - (spacing * 2)),
-            horizontalAlignment = Alignment.Start
-        ) {
-            Row(horizontalArrangement = Arrangement.Center) {
-                Image(
-                    painter = rememberImagePainter(data = ""),
-                    contentDescription = "Book Image",
-                    modifier = Modifier
-                        .height(132.dp)
-                        .width(104.dp)
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Column() {
+        TitleSection(label = "Reading List")
 
-                }
-            }
-        }
+        BookListArea(listOfBooks = mBooks, navController = navController)
     }
 }
 
 @Composable
 fun ReadingRightNowArea(books: List<MBook>, navController: NavController) {
+    ListCard()
+}
 
+@Composable
+fun BookListArea(listOfBooks: List<MBook>, navController: NavHostController) {
+    HorizonTalScrollableComponent(listOfBooks) {
+        //To do OnClick card -> Navigate to details
+    }
+}
+
+@Composable
+fun HorizonTalScrollableComponent(listOfBooks: List<MBook>, onCardPressed: (String) -> Unit) {
+    val scrollState = rememberScrollState()
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(280.dp)
+            .horizontalScroll(scrollState)
+    ) {
+        for (book in listOfBooks) {
+            ListCard(book) {
+                onCardPressed(it)
+            }
+        }
+    }
 }
