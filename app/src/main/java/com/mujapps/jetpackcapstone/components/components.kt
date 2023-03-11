@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -119,7 +120,9 @@ fun InputField(
         onValueChange = {
             valueState.value = it
         },
-        modifier = modifier.padding(bottom = 8.dp, start = 12.dp, end = 12.dp).fillMaxWidth(),
+        modifier = modifier
+            .padding(bottom = 8.dp, start = 12.dp, end = 12.dp)
+            .fillMaxWidth(),
         enabled = isEnabled,
         textStyle = TextStyle(fontSize = 16.sp, color = MaterialTheme.colors.onBackground),
         keyboardOptions = KeyboardOptions(keyboardType = keyBoardType, imeAction = imeAction),
@@ -151,7 +154,15 @@ fun TitleSection(modifier: Modifier = Modifier, label: String) {
 }
 
 @Composable
-fun ReaderAppBar(tittle: String, showProfile: Boolean = true, navController: NavController) {
+fun ReaderAppBar(
+    tittle: String,
+    icon: ImageVector? = null,
+    showProfile: Boolean = true,
+    navController: NavController,
+    onBackArrowClicked: () -> Unit = {
+
+    }
+) {
     TopAppBar(title = {
         Row(verticalAlignment = Alignment.CenterVertically) {
             if (showProfile) {
@@ -165,13 +176,21 @@ fun ReaderAppBar(tittle: String, showProfile: Boolean = true, navController: Nav
                         .scale(0.6f)
                 )
             }
+            if (icon != null) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = "Arrow Back",
+                    tint = Color.Red.copy(alpha = 0.7f),
+                    modifier = Modifier.clickable {
+                        onBackArrowClicked.invoke()
+                    })
+            }
+            Spacer(modifier = Modifier.width(100.dp))
             Text(
                 text = tittle,
                 color = Color.Red.copy(alpha = 0.7f),
                 style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 14.sp)
             )
-            Spacer(modifier = Modifier.width(152.dp))
-
         }
     }, actions = {
         IconButton(onClick = {
@@ -179,11 +198,16 @@ fun ReaderAppBar(tittle: String, showProfile: Boolean = true, navController: Nav
                 navController.navigate(ReaderScreens.LoginScreen.name)
             }
         }) {
-            Icon(
-                imageVector = Icons.Filled.Logout,
-                contentDescription = "Log Out",
-                tint = Color.Green.copy(alpha = 0.4f)
-            )
+            if (showProfile) Row() {
+                Icon(
+                    imageVector = Icons.Filled.Logout,
+                    contentDescription = "Log Out",
+                    tint = Color.Green.copy(alpha = 0.4f)
+                )
+            } else {
+                Box() {}
+            }
+
         }
     }, backgroundColor = Color.Transparent, elevation = 0.dp)
 }

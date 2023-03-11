@@ -38,7 +38,7 @@ fun HomeScreen(navController: NavHostController) {
     },
         floatingActionButton = {
             FabContent(onTap = {
-
+                navController.navigate(ReaderScreens.SearchScreen.name)
             })
         }) {
         it.calculateBottomPadding()
