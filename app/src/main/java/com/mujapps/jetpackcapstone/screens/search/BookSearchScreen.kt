@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
@@ -29,10 +30,13 @@ import com.mujapps.jetpackcapstone.components.InputField
 import com.mujapps.jetpackcapstone.components.ReaderAppBar
 import com.mujapps.jetpackcapstone.model.MBook
 import com.mujapps.jetpackcapstone.navigation.ReaderScreens
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-@Preview
-fun BookSearchScreen(navController: NavHostController) {
+fun BookSearchScreen(
+    navController: NavHostController,
+    searchViewModel: BooksSearchViewModel = hiltViewModel()
+) {
     Scaffold(topBar = {
         ReaderAppBar(
             tittle = "Search Books",
@@ -49,9 +53,11 @@ fun BookSearchScreen(navController: NavHostController) {
                 SearchForm(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
-                ) { it ->
-                    Log.d("TAG", it)
+                        .padding(16.dp),
+                    viewModel = searchViewModel
+                ) { query ->
+                    Log.d("TAG", query)
+                    searchViewModel.searchBooks(query)
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -118,6 +124,7 @@ fun BookRow(book: MBook, navController: NavController) {
 @Composable
 fun SearchForm(
     modifier: Modifier = Modifier, loading: Boolean = false,
+    viewModel: BooksSearchViewModel,
     hint: String = "Search", onSearch: (String) -> Unit = {}
 ) {
     Column() {
