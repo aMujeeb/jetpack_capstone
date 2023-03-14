@@ -1,5 +1,6 @@
 package com.mujapps.jetpackcapstone.screens.search
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -16,21 +17,22 @@ import javax.inject.Inject
 class BooksSearchViewModel @Inject constructor(private val mBooksRepository: ReaderBooksRepository) :
     ViewModel() {
 
-    var listOfBooks: MutableState<DataOrException<List<BookItem>, Boolean, Exception>> =
+    val listOfBooks: MutableState<DataOrException<List<BookItem>, Boolean, Exception>> =
         mutableStateOf(
             DataOrException(null, true, Exception(""))
         )
 
     init {
-        searchBooks("Android")
+        //searchBooks("Android")
     }
 
     fun searchBooks(query: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             if(query.isEmpty()) return@launch
 
-            //listOfBooks.value.loading = true
+            listOfBooks.value.loading = true
             listOfBooks.value = mBooksRepository.getAllBooksByQuery(query)
+            Log.d("TAG", "xx"+listOfBooks.value.data.toString())
             if(listOfBooks.value.data.toString().isNotEmpty()) listOfBooks.value.loading = false
         }
     }

@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -30,7 +29,6 @@ import com.mujapps.jetpackcapstone.components.InputField
 import com.mujapps.jetpackcapstone.components.ReaderAppBar
 import com.mujapps.jetpackcapstone.model.MBook
 import com.mujapps.jetpackcapstone.navigation.ReaderScreens
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun BookSearchScreen(
@@ -62,14 +60,23 @@ fun BookSearchScreen(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                BookList(navController)
+                BookList(navController, searchViewModel)
             }
         }
     }
 }
 
 @Composable
-fun BookList(navController: NavHostController) {
+fun BookList(navController: NavHostController, searchViewModel: BooksSearchViewModel) {
+
+    Log.d("TAG", "xxx "+searchViewModel.listOfBooks.value.data.toString())
+
+    if(searchViewModel.listOfBooks.value.loading == true){
+        Log.d("TAG", "LOADING")
+        CircularProgressIndicator()
+    } else {
+        Log.d("TAG", "xxx "+searchViewModel.listOfBooks.value.data.toString())
+    }
     val mBooks = listOf(
         MBook(id = "b1", title = "Hello Again 1", authors = "All of Us 1", notes = null),
         MBook(id = "b2", title = "Hello Again 2", authors = "All of Us 2", notes = null),
