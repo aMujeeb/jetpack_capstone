@@ -3,7 +3,7 @@ package com.mujapps.jetpackcapstone.model
 data class VolumeInfo(
     val allowAnonLogging: Boolean,
     val authors: List<String>,
-    val averageRating: Int,
+    val averageRating: Float,
     val canonicalVolumeLink: String,
     val categories: List<String>,
     val contentVersion: String,

@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -35,6 +36,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
 import com.google.firebase.auth.FirebaseAuth
 import com.mujapps.jetpackcapstone.model.MBook
@@ -346,4 +348,17 @@ fun RoundedButton(label: String = "Reading", radius: Int = 29, onPress: () -> Un
             Text(text = label, style = TextStyle(color = Color.White, fontSize = 12.sp))
         }
     }
+}
+
+@Composable
+fun BookImage(imageUrl: String) {
+    AsyncImage(
+        model = imageUrl,
+        contentDescription = "Weather Image",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .width(80.dp)
+            .fillMaxHeight()
+            .padding(4.dp)
+    )
 }

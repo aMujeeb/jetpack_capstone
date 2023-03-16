@@ -1,7 +1,6 @@
 package com.mujapps.jetpackcapstone.screens.search
 
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,15 +18,16 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import coil.compose.rememberImagePainter
+import com.mujapps.jetpackcapstone.components.BookImage
 import com.mujapps.jetpackcapstone.components.InputField
 import com.mujapps.jetpackcapstone.components.ReaderAppBar
-import com.mujapps.jetpackcapstone.model.MBook
+import com.mujapps.jetpackcapstone.model.BookItem
 import com.mujapps.jetpackcapstone.navigation.ReaderScreens
 
 @Composable
@@ -67,59 +67,56 @@ fun BookSearchScreen(
 }
 
 @Composable
-fun BookList(navController: NavHostController, searchViewModel: BooksSearchViewModel) {
+fun BookList(
+    navController: NavHostController,
+    searchViewModel: BooksSearchViewModel = hiltViewModel()
+) {
 
-    Log.d("TAG", "xxx "+searchViewModel.listOfBooks.value.data.toString())
-
-    if(searchViewModel.listOfBooks.value.loading == true){
-        Log.d("TAG", "LOADING")
-        CircularProgressIndicator()
+    val mBooks = searchViewModel.mBooksList
+    if (searchViewModel.mIsLoading) {
+        LinearProgressIndicator()
     } else {
-        Log.d("TAG", "xxx "+searchViewModel.listOfBooks.value.data.toString())
-    }
-    val mBooks = listOf(
-        MBook(id = "b1", title = "Hello Again 1", authors = "All of Us 1", notes = null),
-        MBook(id = "b2", title = "Hello Again 2", authors = "All of Us 2", notes = null),
-        MBook(id = "b3", title = "Hello Again 3", authors = "All of Us 3", notes = null),
-        MBook(id = "b4", title = "Hello Again 4", authors = "All of Us 4", notes = null),
-        MBook(id = "b5", title = "Hello Again 5", authors = "All of Us 5", notes = null),
-        MBook(id = "b6", title = "Hello Again 6", authors = "All of Us 6", notes = null)
-    )
-
-    LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp)) {
-        items(items = mBooks) { book ->
-
+        LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp)) {
+            items(items = mBooks ?: emptyList()) { book ->
+                BookRow(book, navController)
+            }
         }
     }
 }
 
 @Composable
-fun BookRow(book: MBook, navController: NavController) {
+fun BookRow(book: BookItem, navController: NavController) {
     Card(
         modifier = Modifier
             .clickable { }
             .fillMaxWidth()
-            .height(100.dp)
+            .height(120.dp)
             .padding(4.dp),
         shape = RectangleShape,
         elevation = 8.dp
     ) {
         Row(modifier = Modifier.padding(4.dp), verticalAlignment = Alignment.Top) {
-            //Coil new version uses different implementation
-            Image(
-                painter = rememberImagePainter(data = ""),
-                contentDescription = "Book Image",
-                modifier = Modifier
-                    .width(80.dp)
-                    .fillMaxHeight()
-                    .padding(4.dp)
-            )
+            val imageUrl: String = book.volumeInfo.imageLinks.smallThumbnail
+            BookImage(imageUrl)
 
             Column() {
-                Text(text = book.title.toString(), overflow = TextOverflow.Ellipsis)
+                Text(text = book.volumeInfo.title, overflow = TextOverflow.Ellipsis)
                 Text(
-                    text = "Authors :${book.authors}",
+                    text = "Authors :${book.volumeInfo.authors}",
                     overflow = TextOverflow.Clip,
+                    fontStyle = FontStyle.Italic,
+                    style = MaterialTheme.typography.caption
+                )
+                Text(
+                    text = "Date :${book.volumeInfo.publishedDate}",
+                    overflow = TextOverflow.Clip,
+                    fontStyle = FontStyle.Italic,
+                    style = MaterialTheme.typography.caption
+                )
+                Text(
+                    text = "[${book.volumeInfo.categories}]",
+                    overflow = TextOverflow.Clip,
+                    fontStyle = FontStyle.Italic,
                     style = MaterialTheme.typography.caption
                 )
             }

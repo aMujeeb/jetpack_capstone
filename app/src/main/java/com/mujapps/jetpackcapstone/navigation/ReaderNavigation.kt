@@ -1,6 +1,7 @@
 package com.mujapps.jetpackcapstone.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -9,6 +10,7 @@ import com.mujapps.jetpackcapstone.screens.details.BookDetailsScreen
 import com.mujapps.jetpackcapstone.screens.home.HomeScreen
 import com.mujapps.jetpackcapstone.screens.login.LoginScreen
 import com.mujapps.jetpackcapstone.screens.search.BookSearchScreen
+import com.mujapps.jetpackcapstone.screens.search.BooksSearchViewModel
 import com.mujapps.jetpackcapstone.screens.splash.ReaderSplashScreen
 import com.mujapps.jetpackcapstone.screens.stats.ReaderStatisticsScreen
 import com.mujapps.jetpackcapstone.screens.update.BookUpdateScreen
@@ -34,7 +36,8 @@ fun ReaderNavigation() {
         }
 
         composable(ReaderScreens.SearchScreen.name) {
-            BookSearchScreen(navController = navController)
+            val mSearchViewModel = hiltViewModel<BooksSearchViewModel>()
+            BookSearchScreen(navController = navController, searchViewModel = mSearchViewModel)
         }
 
         composable(ReaderScreens.DetailScreen.name) {
