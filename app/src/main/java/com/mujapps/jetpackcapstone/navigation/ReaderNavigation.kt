@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.mujapps.jetpackcapstone.screens.create.CreateAccountScreen
 import com.mujapps.jetpackcapstone.screens.details.BookDetailsScreen
 import com.mujapps.jetpackcapstone.screens.home.HomeScreen
+import com.mujapps.jetpackcapstone.screens.home.HomeScreenViewModel
 import com.mujapps.jetpackcapstone.screens.login.LoginScreen
 import com.mujapps.jetpackcapstone.screens.search.BookSearchScreen
 import com.mujapps.jetpackcapstone.screens.search.BooksSearchViewModel
@@ -26,7 +27,8 @@ fun ReaderNavigation() {
         }
 
         composable(ReaderScreens.ReaderHomeScreen.name) {
-            HomeScreen(navController = navController)
+            val mHomeViewModel = hiltViewModel<HomeScreenViewModel>()
+            HomeScreen(navController = navController, viewModel = mHomeViewModel)
         }
 
         composable(ReaderScreens.LoginScreen.name) {

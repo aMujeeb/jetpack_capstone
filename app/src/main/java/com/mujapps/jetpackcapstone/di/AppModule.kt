@@ -1,6 +1,8 @@
 package com.mujapps.jetpackcapstone.di
 
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mujapps.jetpackcapstone.network.ReaderApiService
+import com.mujapps.jetpackcapstone.repository.FireRepository
 import com.mujapps.jetpackcapstone.repository.ReaderBooksRepository
 import com.mujapps.jetpackcapstone.utils.ReaderConstants
 
@@ -40,4 +42,10 @@ object AppModule {
     @Provides
     fun provideBookRepository(mReaderApiService: ReaderApiService) =
         ReaderBooksRepository(mReaderApiService)
+
+
+    @Singleton
+    @Provides
+    fun provideFireBookRepository() =
+        FireRepository(mQuery = FirebaseFirestore.getInstance().collection("books"))
 }

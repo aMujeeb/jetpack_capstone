@@ -265,7 +265,8 @@ fun ListCard(
         elevation = 8.dp,
         modifier = Modifier
             .padding(16.dp)
-            .height(220.dp)
+            .height(240.dp)
+            .width(160.dp)
             .clickable { onPressBook.invoke(book.title.toString()) }
     ) {
         Column(
@@ -300,7 +301,7 @@ fun ListCard(
                 text = book.title.toString(),
                 modifier = Modifier.padding(4.dp),
                 fontWeight = FontWeight.Bold,
-                maxLines = 2,
+                maxLines = 3,
                 overflow = TextOverflow.Ellipsis
             )
 
