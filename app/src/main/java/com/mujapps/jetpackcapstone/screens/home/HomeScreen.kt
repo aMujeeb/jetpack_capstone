@@ -94,7 +94,7 @@ fun HomeContent(navController: NavHostController, viewModel: HomeScreenViewModel
                 Divider()
             }
         }
-        ReadingRightNowArea(books = listOf(), navController = navController)
+        ReadingRightNowArea(books = mBooks, navController = navController)
 
         TitleSection(label = "Reading List")
 
@@ -104,13 +104,15 @@ fun HomeContent(navController: NavHostController, viewModel: HomeScreenViewModel
 
 @Composable
 fun ReadingRightNowArea(books: List<MBook>, navController: NavController) {
-    ListCard()
+    HorizonTalScrollableComponent(books) {
+        //To do OnClick card -> Navigate to details
+    }
 }
 
 @Composable
 fun BookListArea(listOfBooks: List<MBook>, navController: NavHostController) {
     HorizonTalScrollableComponent(listOfBooks) {
-        //To do OnClick card -> Navigate to details
+        navController.navigate(ReaderScreens.UpdateScreen.name + "/$it")
     }
 }
 

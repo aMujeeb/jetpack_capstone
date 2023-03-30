@@ -1,6 +1,7 @@
 package com.mujapps.jetpackcapstone.screens.search
 
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -35,6 +36,11 @@ fun BookSearchScreen(
     navController: NavHostController,
     searchViewModel: BooksSearchViewModel = hiltViewModel()
 ) {
+
+    BackHandler() {
+        navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+    }
+
     Scaffold(topBar = {
         ReaderAppBar(
             tittle = "Search Books",

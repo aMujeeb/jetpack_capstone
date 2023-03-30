@@ -1,7 +1,6 @@
 package com.mujapps.jetpackcapstone
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -13,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.firebase.firestore.FirebaseFirestore
+import androidx.navigation.compose.rememberNavController
 import com.mujapps.jetpackcapstone.navigation.ReaderNavigation
 import com.mujapps.jetpackcapstone.ui.theme.JetPackCapstoneTheme
 import dagger.hilt.android.AndroidEntryPoint
