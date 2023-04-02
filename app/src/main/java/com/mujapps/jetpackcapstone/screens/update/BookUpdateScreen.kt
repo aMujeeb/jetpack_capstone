@@ -18,6 +18,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -28,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.mujapps.jetpackcapstone.components.InputField
+import com.mujapps.jetpackcapstone.components.RatingBar
 import com.mujapps.jetpackcapstone.components.ReaderAppBar
 import com.mujapps.jetpackcapstone.data.DataOrException
 import com.mujapps.jetpackcapstone.model.MBook
@@ -169,16 +171,84 @@ fun CardListItem(book: MBook, openPressDetails: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ShowSimpleForm(book: MBook?, navController: NavHostController) {
     Spacer(modifier = Modifier.width(16.dp))
     val notesText = remember {
         mutableStateOf("")
     }
+
+    val isStartedReading = remember {
+        mutableStateOf(false)
+    }
+
+    val isFinishedReading = remember {
+        mutableStateOf(false)
+    }
+
+    val ratingVal = remember {
+        mutableStateOf(0)
+    }
+
     SimpleForm(
         defaultValue = book?.notes.toString().ifEmpty { "No thoughts Available.." }) { note ->
         notesText.value = note
     }
+
+    Row(
+        modifier = Modifier.padding(4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
+    ) {
+        TextButton(
+            onClick = { isStartedReading.value = true },
+            enabled = book?.startedReading == null
+        ) {
+            if (book?.startedReading == null) {
+                if (!isStartedReading.value) {
+                    Text(text = "Start Reading")
+                } else {
+                    Text(
+                        text = "Started Reading",
+                        modifier = Modifier.alpha(0.6f),
+                        color = Color.Red.copy(alpha = 0.5f)
+                    )
+                }
+            } else {
+                Text(text = "Started on :${book.startedReading}") //To do format Date
+            }
+        }
+
+        Spacer(modifier = Modifier.width(12.dp))
+
+        TextButton(
+            onClick = { isFinishedReading.value = true },
+            enabled = book?.finishedReading == null
+        ) {
+            if (book?.finishedReading == null) {
+                if (!isFinishedReading.value) {
+                    Text(text = "Mark as Read")
+                } else {
+                    Text(
+                        text = "Finished Reading",
+                        modifier = Modifier.alpha(0.6f),
+                        color = Color.Red.copy(alpha = 0.5f)
+                    )
+                }
+            } else {
+                Text(text = "Finished on :${book.finishedReading}") //To do format Date
+            }
+        }
+    }
+
+    Text(text = "Raring", modifier = Modifier.padding(bottom = 4.dp))
+    book?.rating?.toInt().let { it ->
+        RatingBar(rating = it!!) { rating ->
+            ratingVal.value = rating
+        }
+    }
+
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -212,5 +282,4 @@ fun SimpleForm(
             onSearch(textFieldValue.value.trim())
             keyBoardController?.hide()
         })
-
 }
