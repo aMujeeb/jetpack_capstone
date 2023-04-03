@@ -1,5 +1,6 @@
 package com.mujapps.jetpackcapstone.screens.update
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,9 +29,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mujapps.jetpackcapstone.components.InputField
 import com.mujapps.jetpackcapstone.components.RatingBar
 import com.mujapps.jetpackcapstone.components.ReaderAppBar
+import com.mujapps.jetpackcapstone.components.RoundedButton
 import com.mujapps.jetpackcapstone.data.DataOrException
 import com.mujapps.jetpackcapstone.model.MBook
 import com.mujapps.jetpackcapstone.screens.home.HomeScreenViewModel
@@ -248,6 +252,46 @@ fun ShowSimpleForm(book: MBook?, navController: NavHostController) {
             ratingVal.value = rating
         }
     }
+
+    Spacer(modifier = Modifier.padding(bottom = 8.dp))
+
+    Row() {
+        RoundedButton(label = "Update") {
+            //Update if only changes in data
+            val changeNotes = book?.notes != notesText.value
+            val changeRate = book?.rating?.toInt() != ratingVal.value
+            val isFinishedTimeStamp =
+                if (isFinishedReading.value) Timestamp.now() else book?.finishedReading
+            val isStartedTimeStamp =
+                if (isStartedReading.value) Timestamp.now() else book?.startedReading
+
+            val bookUpdate =
+                changeNotes || changeRate || isFinishedReading.value || isStartedReading.value
+            val bookToUpdate = hashMapOf(
+                "finished_reading" to isFinishedTimeStamp,
+                "started_reading" to isStartedTimeStamp,
+                "rating" to ratingVal.value,
+                "notes" to notesText.value
+            ).toMap()
+
+            //Updating
+            if(bookUpdate) {
+                FirebaseFirestore.getInstance().collection("books").document(book?.id.toString()).update(bookToUpdate).addOnCompleteListener {
+                    Log.d("TAG", "Update Success")
+                }.addOnFailureListener {
+                    Log.d("TAG", "Update Failure")
+                }
+            }
+
+        }
+
+        Spacer(modifier = Modifier.width(80.dp))
+
+        RoundedButton(label = "Delete") {
+
+        }
+    }
+
 
 }
 
