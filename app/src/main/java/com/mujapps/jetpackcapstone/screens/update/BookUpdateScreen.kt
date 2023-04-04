@@ -1,6 +1,8 @@
 package com.mujapps.jetpackcapstone.screens.update
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,10 +13,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -22,7 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -31,13 +32,13 @@ import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
-import com.mujapps.jetpackcapstone.components.InputField
-import com.mujapps.jetpackcapstone.components.RatingBar
-import com.mujapps.jetpackcapstone.components.ReaderAppBar
-import com.mujapps.jetpackcapstone.components.RoundedButton
+import com.mujapps.jetpackcapstone.R
+import com.mujapps.jetpackcapstone.components.*
 import com.mujapps.jetpackcapstone.data.DataOrException
 import com.mujapps.jetpackcapstone.model.MBook
+import com.mujapps.jetpackcapstone.navigation.ReaderScreens
 import com.mujapps.jetpackcapstone.screens.home.HomeScreenViewModel
+import com.mujapps.jetpackcapstone.utils.formatDate
 
 @Composable
 fun BookUpdateScreen(
@@ -179,6 +180,9 @@ fun CardListItem(book: MBook, openPressDetails: () -> Unit) {
 @Composable
 fun ShowSimpleForm(book: MBook?, navController: NavHostController) {
     Spacer(modifier = Modifier.width(16.dp))
+
+    val mContext = LocalContext.current
+
     val notesText = remember {
         mutableStateOf("")
     }
@@ -220,7 +224,7 @@ fun ShowSimpleForm(book: MBook?, navController: NavHostController) {
                     )
                 }
             } else {
-                Text(text = "Started on :${book.startedReading}") //To do format Date
+                Text(text = "Started on :${formatDate(book.startedReading!!)}") //To do format Date
             }
         }
 
@@ -241,7 +245,7 @@ fun ShowSimpleForm(book: MBook?, navController: NavHostController) {
                     )
                 }
             } else {
-                Text(text = "Finished on :${book.finishedReading}") //To do format Date
+                Text(text = "Finished on :${formatDate(book.finishedReading!!)}") //To do format Date
             }
         }
     }
@@ -275,24 +279,74 @@ fun ShowSimpleForm(book: MBook?, navController: NavHostController) {
             ).toMap()
 
             //Updating
-            if(bookUpdate) {
-                FirebaseFirestore.getInstance().collection("books").document(book?.id.toString()).update(bookToUpdate).addOnCompleteListener {
-                    Log.d("TAG", "Update Success")
-                }.addOnFailureListener {
-                    Log.d("TAG", "Update Failure")
-                }
+            if (bookUpdate) {
+                FirebaseFirestore.getInstance().collection("books").document(book?.id.toString())
+                    .update(bookToUpdate).addOnCompleteListener {
+                        Log.d("TAG", "Update Success")
+                        showMyToast(mContext, "Book Updated Successfully")
+                        navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+                    }.addOnFailureListener {
+                        Log.d("TAG", "Update Failure")
+                    }
             }
 
         }
 
         Spacer(modifier = Modifier.width(80.dp))
 
+        //For a dialog box
+        val openDialog = remember {
+            mutableStateOf(false)
+        }
+        if (openDialog.value) {
+            ShowAlertDialog(
+                message = stringResource(id = R.string.are_you_sure_to_delete),
+                openDialog
+            ) {
+                book?.id?.let {
+                    FirebaseFirestore.getInstance().collection("books").document(it).delete()
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                openDialog.value = false
+                                navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+                            }
+                        }
+                }
+            }
+        }
         RoundedButton(label = "Delete") {
-
+            openDialog.value = true
         }
     }
+}
 
+@Composable
+fun ShowAlertDialog(message: String, openDialog: MutableState<Boolean>, onYesPressed: () -> Unit) {
+    if (openDialog.value) {
+        AlertDialog(onDismissRequest = { openDialog.value = false }, title = {
+            Text(text = "Delete Book")
+        }, text = {
+            Text(text = message)
+        }, buttons = {
+            Row(modifier = Modifier.padding(8.dp), horizontalArrangement = Arrangement.Center) {
+                TextButton(onClick = {
+                    onYesPressed.invoke()
+                }) {
+                    Text(text = "Yes")
+                }
 
+                TextButton(onClick = {
+                    openDialog.value = false
+                }) {
+                    Text(text = "No")
+                }
+            }
+        })
+    }
+}
+
+fun showMyToast(context: Context, message: String) {
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
