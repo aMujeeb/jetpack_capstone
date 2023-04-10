@@ -302,7 +302,7 @@ fun ListCard(
                         modifier = Modifier.padding(bottom = 2.dp)
                     )
 
-                    BookRating(score = 4.5)
+                    BookRating(score = book.rating ?: 0.0)
                 }
             }
 
@@ -323,12 +323,20 @@ fun ListCard(
                 overflow = TextOverflow.Ellipsis
             )
 
+            val isStartedReading = remember {
+                mutableStateOf(false)
+            }
+
             Row(
                 modifier = Modifier.width(150.dp),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.Bottom
             ) {
-                RoundedButton(label = "Reading", radius = 70)
+                isStartedReading.value = book.startedReading != null
+                RoundedButton(
+                    label = if (isStartedReading.value) "Reading" else "Not Yet",
+                    radius = 70
+                )
             }
         }
     }
